@@ -1,8 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Login from'./components/Login';
-import Register from './components/Register';
+import Login from'./components/Auth/Login';
+import Register from './components/Auth/Register';
 
 const Data =[
   {
@@ -49,6 +49,7 @@ const App = () => {
     <BrowserRouter>
       <Route exact path='/' component={Register} />
       <Route exact path='/login'component={Login}/>
+      <Route exact path='/register' component={Register}/>
     </BrowserRouter>
     
   )
