@@ -1,6 +1,6 @@
 import React from "react";
 import firebase from "../../firebase";
-import { Grid, Form, Segment, Button, Header, Message, Icon } from "semantic-ui-react";
+import { Grid, Form, Segment, Button, Header, Message } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 class Register extends React.Component {
@@ -10,7 +10,8 @@ class Register extends React.Component {
     password: '',
     passwordConfirmation: '',
     errors: [],
-    loading: false
+    loading: false,
+    userRef: firebase.database().ref('users')
   };
 
   handleChange = event => 
@@ -31,8 +32,15 @@ class Register extends React.Component {
               createdUser.user.updateProfile({
                 displayName: this.state.username
               })
+              .then(() => {
+                this.saveUser(createdUser).then(() => {
+                  console.log('user saved');
+                })
+              })
               this.setState({loading: false});
+
           })
+          
           .catch(err => {
               console.error(err);
               this.setState({errors: this.state.errors.concat(err), loading: false});
@@ -73,7 +81,7 @@ class Register extends React.Component {
     {
       return false;
     }
-    else if (password != passwordConfirmation)
+    else if (password !== passwordConfirmation)
     {
       return false;
     }
@@ -85,6 +93,13 @@ class Register extends React.Component {
 
   showError = errors => errors.map((error, i) => <p key={i}>{error.message}</p>);
 
+  saveUser = createdUser =>
+  {
+    return this.state.userRef.child(createdUser.user.uid).set({
+      name: createdUser.user.displayName
+    })
+  }
+
   render() 
   {
     
@@ -92,7 +107,7 @@ class Register extends React.Component {
     return (
       <Grid textAlign="center" verticalAlign="middle" className="app">
         <Grid.Column style={{ maxWidth: 450 }}>
-          <Header as="h2" icon color="orange" textAlign="center">
+          <Header as="h2" icon color="blue" textAlign="center">
             Register to React Chat
           </Header>
           <Form onSubmit={this.handleSubmit} size="large">
@@ -124,7 +139,7 @@ class Register extends React.Component {
                 name="password"
                 icon="lock"
                 iconPosition="left"
-                placeholder="Password (6 character)"
+                placeholder="Password (6 characters min)"
                 onChange={this.handleChange}
                 value={this.state.password}
                 type="password"
@@ -141,7 +156,7 @@ class Register extends React.Component {
                 type="password"
               />
 
-              <Button disabled={this.state.loading} className={this.state.loading ? 'loading':''}color="orange" fluid size="large">
+              <Button disabled={this.state.loading} className={this.state.loading ? 'loading':''} color="blue" fluid size="large">
                 Submit
               </Button>
             </Segment>
