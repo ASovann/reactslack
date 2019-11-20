@@ -11,17 +11,21 @@ import { BrowserRouter, Switch, Route, withRouter } from "react-router-dom";
 import { createStore } from "redux";
 import { Provider, connect } from "react-redux";
 import rootReducer from "./reducers";
-import { setUser } from "./actions";
+import { setUser, clearUser } from "./actions";
 
 const store = createStore(rootReducer);
 
 class Root extends React.Component {
-    
+
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.props.setUser(user);
         this.props.history.push("/");
+      }
+      else{
+          this.props.history.push('/login');
+          this.props.clearUser();
       }
     });
   }
@@ -44,7 +48,7 @@ const mapStateFromProps = state => ({
 });
 
 const RootWithAuth = withRouter(
-  connect(mapStateFromProps, { setUser })(Root)
+  connect(mapStateFromProps, { setUser, clearUser })(Root)
 );
 
 ReactDOM.render(
