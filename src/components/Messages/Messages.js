@@ -6,7 +6,7 @@ class Messages extends React.Component
     {
         return(
             <div>
-                
+                Messages
             </div>
         )
     }
