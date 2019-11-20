@@ -5,3 +5,7 @@ body,
   background: #eee;
   padding: 1em;
 }
+.messages {
+  height: 440px;
+  overflow-y: scroll;
+}
