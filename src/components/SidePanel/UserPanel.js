@@ -19,7 +19,7 @@ class UserPanel extends React.Component
     [
         {
             key:"user",
-        text: <span>Connecté en tant que <strong>{this.state.user.displayName}</strong></span>,
+            text: <span>Connecté en tant que <strong>{this.state.user.displayName}</strong></span>,
             disabled: true
         },
         {

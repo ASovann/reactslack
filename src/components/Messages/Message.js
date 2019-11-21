@@ -1,6 +1,7 @@
 import  React from 'react';
-import { Comment } from 'semantic-ui-react';
+import { Comment as Com} from 'semantic-ui-react';
 import moment  from 'moment';
+import  { Message as Mes} from 'semantic-ui-react'
 
 const isOwnMessage = (message, user) =>
 {
@@ -14,19 +15,20 @@ const timeFromNow = time =>
 
 const Message = ({ message, user}) =>
 (
-    <Comment>
-        <Comment.Content className={isOwnMessage(message, user)}>
-            <Comment.Author as="a">
+    
+    <Com>
+        <Com.Content className={isOwnMessage(message, user)}>
+            <Com.Author as="a" style={{ color: 'red'}}>
                 {message.user.name}
-            </Comment.Author>
-            <Comment.Metadata>
+            </Com.Author>
+            <Com.Metadata>
                 {timeFromNow(message.time)}
-            </Comment.Metadata>
-            <Comment.Text>
+            </Com.Metadata>
+            <Com.Text>
                 {message.content}
-            </Comment.Text>
-        </Comment.Content>
-    </Comment>
+            </Com.Text>
+        </Com.Content>
+    </Com>
 )
 
 export default Message;

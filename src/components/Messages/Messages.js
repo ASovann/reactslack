@@ -32,6 +32,9 @@ class Messages extends React.Component
     this.addMessageListener(channelId);
   }
 
+  displayChannelName = channel => channel ? `#${channel.name}` : '';
+
+
   displayMessages = messages => (
       messages.length > 0 && messages.map(message => (
           <Message key={message.time} message={message} user={this.state.user}/>
@@ -59,7 +62,7 @@ class Messages extends React.Component
         return(
             <div>
                 <React.Fragment>
-                    <MessagesHeader/>
+                    <MessagesHeader channelName={this.displayChannelName(channel)}/>
                     <Segment>
                         <Comment.Group className="messages">
                             {this.displayMessages(messages)}

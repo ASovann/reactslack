@@ -5,18 +5,15 @@ class MessagesHeader extends React.Component
 {
     render()
     {
+        const { channelName } = this.props;
         return(
             <div>
                 <Segment clearing>
-                    <Header fluid="true" as="h2" floated="left" style={{ marginBottom: 0 }}>
+                    <Header fluid="true" as="h2" floated="center" style={{ marginBottom: 0 }}>
                     <span>
-                    Discussion
+                        {channelName}
                     </span>
-                    <Header.Subheader> 2 users</Header.Subheader>
                     </Header>
-                   
-                    
-
                 </Segment>
             </div>
         );

@@ -14,7 +14,10 @@ class Channels extends React.Component
         channelView: '',
         channelRef: firebase.database().ref('channels'),
         firstLoad: true,
-        activeChannel: ''
+        activeChannel: '',
+        channel: null,
+        messageRef: firebase.database().ref('messages'),
+        notifications: []
     }
 
     componentDidMount()
@@ -48,6 +51,7 @@ class Channels extends React.Component
     {
         this.setActiveChannel(channel);
         this.props.setCurrentChannel(channel);
+        this.setState({ channel });
     }
 
     setActiveChannel = channel => 
@@ -62,8 +66,19 @@ class Channels extends React.Component
             loadedChannels.push(snap.val());
             //console.log(loadedChannels);
             this.setState({ channels: loadedChannels }, () => this.setFirstChannel());
+            this.addNotificationListener(snap.key);
         })
     };
+
+    addNotificationListener = channelId =>
+    {
+        this.state.messageRef.child(channelId).on('value', snap => {
+            if (this.state.channel)
+            {
+                this.handleNotifications(channelId, this.state.channel.id, this.notification, snap);
+            }
+        });
+    }
 
     removeListeners = () =>
     {
@@ -79,6 +94,23 @@ class Channels extends React.Component
             this.addChannel();
         }
     };
+
+    handleNotifications = (channelId, currentChannelId, notifications, snap) =>
+    {
+        let lastTotal = 0;
+        let index = notifications.findIndex(notification => notification.id === channelId);
+        if(index !== -1)
+        {
+
+        } else {
+            notifications.push({
+                id: channelId,
+                total: snap.numChildren(),
+            })
+            
+
+        }
+    }
 
     addChannel = () =>
     {
@@ -129,10 +161,10 @@ class Channels extends React.Component
                 <React.Fragment>
                 <Menu.Menu style={{ paddingBottom: '2em' }}>
                     <Menu.Item>
-                        <span>
-                            <Icon name="exchange"/> Discussion
+                        <span style={{ color: 'black' }}>
+                            Discussion
                         </span>
-                        ({ channels.length }) <Icon name="add" onClick={this.openModal}/>
+                        ({ channels.length }) <Icon className="add" name="add" onClick={this.openModal}/>
                     </Menu.Item>
                     {this.displayChannels(channels)}
                 </Menu.Menu>
