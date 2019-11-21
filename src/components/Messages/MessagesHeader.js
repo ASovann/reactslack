@@ -9,7 +9,7 @@ class MessagesHeader extends React.Component
         return(
             <div>
                 <Segment clearing>
-                    <Header fluid="true" as="h2" floated="center" style={{ marginBottom: 0 }}>
+                    <Header fluid="true" as="h2" floated="left" style={{ marginBottom: 0 }}>
                     <span>
                         {channelName}
                     </span>

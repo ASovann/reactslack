@@ -18,43 +18,42 @@ class Messages extends React.Component
     }
 
     componentDidMount()
-  {
-    const {channel, user} = this.state;
-    if(channel && user)
     {
-      this.addListerners(channel.id);
+        const {channel, user} = this.state;
+        if(channel && user)
+        {
+            this.addListerners(channel.id);
 
+        }
     }
-  }
 
-  addListerners = channelId =>
-  {
-    this.addMessageListener(channelId);
-  }
-
-  displayChannelName = channel => channel ? `#${channel.name}` : '';
-
-
-  displayMessages = messages => (
-      messages.length > 0 && messages.map(message => (
-          <Message key={message.time} message={message} user={this.state.user}/>
-
-      ))
-  )
-
-  addMessageListener = channelId =>
-  {
-    let loadedMessages = [];
-    this.state.messagesRef.child(channelId).on('child_added', snap =>
+    addListerners = channelId =>
     {
-      loadedMessages.push(snap.val());
-      //console.log(loadedMessages);
-      this.setState({
-          messages: loadedMessages,
-          messagesLoading: false
-      });
-    });
-  }
+        this.addMessageListener(channelId);
+    }
+
+    displayChannelName = channel => channel ? `#${channel.name}` : '';
+
+
+    displayMessages = messages => (
+        messages.length > 0 && messages.map(message => (
+          <Message key={message.time} message={message} user={this.state.user}/>
+      ))
+    )
+
+    addMessageListener = channelId =>
+    {
+        let loadedMessages = [];
+        this.state.messagesRef.child(channelId).on('child_added', snap =>
+        {
+            loadedMessages.push(snap.val());
+            //console.log(loadedMessages);
+            this.setState({
+                messages: loadedMessages,
+                messagesLoading: false
+            });
+        });
+    }
 
     render()
     {

@@ -61,7 +61,7 @@ class MessageForm extends React.Component {
     return (
       <Segment className="message__form">
         <Input fluid name="message" onChange={this.handleChange} value={message} style={{ marginBottom: "0.7em" }} className={errors.some(error => error.message.includes("message")) ? "error" : ''}placeholder="Ecrivez..."/>
-          <Button onClick={this.sendMessage} disabled={loading} color="grey" content="Repondre"/>
+        <Button onClick={this.sendMessage} disabled={loading} color="grey" content="Repondre"/>
       </Segment>
     );
   }
