@@ -26,3 +26,13 @@ export function setCurrentChannel(channel)
         }
     }
 }
+
+export function setPrivateChannel (isPrivateChannel)
+{
+    return {
+        type: actionTypes.SET_PRIVATE_CHANNEL,
+        payload: {
+            isPrivateChannel
+        }
+    }
+}

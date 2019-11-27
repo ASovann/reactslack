@@ -9,6 +9,7 @@ import Message from './Message';
 class Messages extends React.Component
 {
     state = {
+        privateChannel: this.props.isPrivateChannel,
         messagesRef: firebase.database().ref('messages'),
         channel: this.props.currentChannel,
         user: this.props.currentUser,
@@ -32,7 +33,10 @@ class Messages extends React.Component
         this.addMessageListener(channelId);
     }
 
-    displayChannelName = channel => channel ? `#${channel.name}` : '';
+    displayChannelName = channel => 
+    {
+        return channel ? `${this.state.privateChannel ? '@' : '#' }${channel.name}`:'';
+    }
 
 
     displayMessages = messages => (
@@ -57,17 +61,18 @@ class Messages extends React.Component
     }
     render()
     {
-        const { messagesRef, channel, messages, user } = this.state;
+        const { messagesRef, channel, messages, user, privateChannel } = this.state;
         return(
             <div>
                 <React.Fragment>
-                    <MessagesHeader channelName={this.displayChannelName(channel)}/>
+                    <MessagesHeader channelName={this.displayChannelName(channel)} isPrivateChannel={privateChannel}/>
                     <Segment>
                         <Comment.Group className="messages">
                             {this.displayMessages(messages)}
                         </Comment.Group>
                     </Segment>
-                    <MessageForm messagesRef={messagesRef} currentChannel={channel} currentUser={user}/>
+
+                    <MessageForm messagesRef={messagesRef} currentChannel={channel} currentUser={user} isPrivateChannel={privateChannel}/>
                 </React.Fragment>
             </div>
         );
