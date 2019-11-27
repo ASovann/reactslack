@@ -19,6 +19,7 @@ const deleteMessage = (message, user) =>
 
     firebase.database().ref('messages').on('value', snap =>
     {
+        console.log(snap.val())
         if(message.user.uid === user.uid)
         {
             firebase.database().ref('messages').child(snap.key).remove()
