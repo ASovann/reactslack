@@ -17,14 +17,14 @@ const timeFromNow = time =>
 const deleteMessage = (message, user) =>
 {
 
-    let currentMessage = [];
     firebase.database().ref('messages').on('value', snap =>
     {
         if(message.user.uid === user.uid)
         {
-            let mes = snap.val();
+            firebase.database().ref('messages').child(snap.key).remove()
         }
     })
+    
 }
 const Message = ({ message, user}) =>
 (
@@ -33,7 +33,7 @@ const Message = ({ message, user}) =>
         <Com.Content className={isOwnMessage(message, user)}>
             <Com.Author as="a" style={{ color: 'red'}}>
                 {message.user.name}
-                <Icon name="minus" onClick={deleteMessage(message, user)}/>
+                <Icon name="minus" onClick={() => deleteMessage(message, user)}/>
             </Com.Author>
             <Com.Metadata>
                 {timeFromNow(message.time)}
