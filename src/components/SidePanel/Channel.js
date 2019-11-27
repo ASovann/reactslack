@@ -15,7 +15,6 @@ class Channels extends React.Component
         channelRef: firebase.database().ref('channels'),
         firstLoad: true,
         activeChannel: '',
-        channel: null,
         messageRef: firebase.database().ref('messages'),
         notifications: []
     }
@@ -66,19 +65,9 @@ class Channels extends React.Component
             loadedChannels.push(snap.val());
             //console.log(loadedChannels);
             this.setState({ channels: loadedChannels }, () => this.setFirstChannel());
-            this.addNotificationListener(snap.key);
+            
         })
     };
-
-    addNotificationListener = channelId =>
-    {
-        this.state.messageRef.child(channelId).on('value', snap => {
-            if (this.state.channel)
-            {
-                this.handleNotifications(channelId, this.state.channel.id, this.notification, snap);
-            }
-        });
-    }
 
     removeListeners = () =>
     {
@@ -159,7 +148,7 @@ class Channels extends React.Component
         return(
             <div>
                 <React.Fragment>
-                <Menu.Menu style={{ paddingBottom: '2em' }}>
+                <Menu.Menu className="menu">
                     <Menu.Item>
                         <span style={{ color: 'black' }}>
                             Discussion

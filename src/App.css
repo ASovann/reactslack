@@ -20,6 +20,9 @@ body,
 
 }
 
+.menu {
+  padding-bottom: 2em;
+}
 .message__self{
   border-left: 2px solid orange;
   padding-left: 8px;

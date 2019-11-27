@@ -1,7 +1,8 @@
 import  React from 'react';
-import { Comment as Com} from 'semantic-ui-react';
+import { Comment as Com, Button, Icon} from 'semantic-ui-react';
 import moment  from 'moment';
-import  { Message as Mes} from 'semantic-ui-react'
+import firebase from 'firebase';
+
 
 const isOwnMessage = (message, user) =>
 {
@@ -13,6 +14,18 @@ const timeFromNow = time =>
     moment(time).fromNow();
 }
 
+const deleteMessage = (message, user) =>
+{
+
+    let currentMessage = [];
+    firebase.database().ref('messages').on('value', snap =>
+    {
+        if(message.user.uid === user.uid)
+        {
+            let mes = snap.val();
+        }
+    })
+}
 const Message = ({ message, user}) =>
 (
     
@@ -20,6 +33,7 @@ const Message = ({ message, user}) =>
         <Com.Content className={isOwnMessage(message, user)}>
             <Com.Author as="a" style={{ color: 'red'}}>
                 {message.user.name}
+                <Icon name="minus" onClick={deleteMessage(message, user)}/>
             </Com.Author>
             <Com.Metadata>
                 {timeFromNow(message.time)}
@@ -27,6 +41,7 @@ const Message = ({ message, user}) =>
             <Com.Text>
                 {message.content}
             </Com.Text>
+            
         </Com.Content>
     </Com>
 )

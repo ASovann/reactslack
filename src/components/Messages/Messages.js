@@ -13,8 +13,7 @@ class Messages extends React.Component
         channel: this.props.currentChannel,
         user: this.props.currentUser,
         messages: [],
-        messagesLoading: true
-        
+        messagesLoading: true,
     }
 
     componentDidMount()
@@ -26,6 +25,7 @@ class Messages extends React.Component
 
         }
     }
+
 
     addListerners = channelId =>
     {
@@ -41,6 +41,7 @@ class Messages extends React.Component
       ))
     )
 
+
     addMessageListener = channelId =>
     {
         let loadedMessages = [];
@@ -54,7 +55,6 @@ class Messages extends React.Component
             });
         });
     }
-
     render()
     {
         const { messagesRef, channel, messages, user } = this.state;
